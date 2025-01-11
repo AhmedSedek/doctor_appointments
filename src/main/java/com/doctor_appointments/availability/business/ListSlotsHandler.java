@@ -13,4 +13,13 @@ public class ListSlotsHandler {
     public List<SlotDto> handle() {
         return slotRepo.listSlots().stream().map(slotEntity -> SlotDto.fromRepo(slotEntity)).toList();
     }
+
+    public List<SlotDto> handleAvailableOnly() {
+        return slotRepo
+                .listSlots()
+                .stream()
+                .filter(slotEntity -> !slotEntity.isReserved())
+                .map(slotEntity -> SlotDto.fromRepo(slotEntity))
+                .toList();
+    }
 }
