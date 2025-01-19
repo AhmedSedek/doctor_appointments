@@ -22,7 +22,16 @@ public class AppointmentRepo implements IAppointmentRepo {
     }
 
     @Override
-    public void save(AppointmentEntity appointment) {
+    public synchronized AppointmentEntity delete(UUID appointmentId) {
+        var removedAppointment = appointments.remove(appointmentId);
+        if (removedAppointment == null) {
+            throw new IllegalArgumentException(String.format("Appointment %s does not exist", appointmentId));
+        }
+        return removedAppointment;
+    }
+
+    @Override
+    public synchronized void save(AppointmentEntity appointment) {
         if (appointments.containsKey(appointment.appointmentId())) {
             throw new IllegalArgumentException("Conflict appointment ID: " + appointment.appointmentId());
         }
@@ -36,7 +45,7 @@ public class AppointmentRepo implements IAppointmentRepo {
         notificationService.notify(patientEmail, appointment.toString());
     }
 
-    private String patientEmail (UUID patientId) {
+    private String patientEmail(UUID patientId) {
         return String.format("%s@email.com", patientId.toString());
     }
 }

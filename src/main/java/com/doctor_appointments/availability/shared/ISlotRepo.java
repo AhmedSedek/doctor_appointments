@@ -9,5 +9,6 @@ public interface ISlotRepo {
 
     List<SlotEntity> listSlots();
 
+    void releaseSlot(UUID slotId);
     void reserveSlot(UUID slotId);
 }

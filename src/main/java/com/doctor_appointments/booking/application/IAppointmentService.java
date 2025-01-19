@@ -4,4 +4,6 @@ import java.util.UUID;
 
 public interface IAppointmentService {
   AppointmentDto bookAppointment(UUID slotId, UUID patentId, String patientName);
+
+  void cancelAppointment(UUID appointmentId);
 }

@@ -27,4 +27,10 @@ public class AppointmentService implements IAppointmentService {
     return AppointmentDto.fromRepo(appointment);
   }
 
+  @Override
+  public void cancelAppointment(UUID appointmentId) {
+    AppointmentEntity deletedAppointment = appointmentRepo.delete(appointmentId);
+    slotRepo.releaseSlot(deletedAppointment.slotId());
+  }
+
 }

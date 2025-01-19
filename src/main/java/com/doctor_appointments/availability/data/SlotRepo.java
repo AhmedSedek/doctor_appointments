@@ -27,6 +27,19 @@ public class SlotRepo implements ISlotRepo {
     }
 
     @Override
+    public synchronized void releaseSlot(UUID slotId) {
+        SlotEntity slot = slots.get(slotId);
+        if (slot == null) {
+            throw new RuntimeException("No slot found with ID: " + slotId);
+        }
+        if (!slot.isReserved()) {
+            System.out.println(String.format("Slot %s is already released", slotId));
+        } else {
+            slots.put(slotId, SlotEntity.withReserved(slot, /*isReserved=*/ false));
+        }
+    }
+
+    @Override
     public synchronized void reserveSlot(UUID slotId) {
         SlotEntity slot = slots.get(slotId);
         if (slot == null) {
@@ -35,6 +48,6 @@ public class SlotRepo implements ISlotRepo {
         if (slot.isReserved()) {
             throw new IllegalStateException("Slot already reserved: " + slotId);
         }
-        slots.put(slotId, SlotEntity.withReserved(slot));
+        slots.put(slotId, SlotEntity.withReserved(slot, /*isReserved=*/ true));
     }
 }
