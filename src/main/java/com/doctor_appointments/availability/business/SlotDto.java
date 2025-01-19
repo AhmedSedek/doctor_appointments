@@ -4,6 +4,7 @@ import main.java.com.doctor_appointments.availability.data.SlotEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import main.java.com.doctor_appointments.availability.shared.Slot;
 
 public record SlotDto(UUID slotId, UUID doctorId, String doctorName, LocalDateTime time, boolean isReserved, Double cost) {
     public static SlotDto fromRepo(SlotEntity slotEntity) {
@@ -13,5 +14,9 @@ public record SlotDto(UUID slotId, UUID doctorId, String doctorName, LocalDateTi
                 slotEntity.time(),
                 slotEntity.isReserved(),
                 slotEntity.cost());
+    }
+
+    public Slot toSharedSlot() {
+        return new Slot(slotId, doctorId, doctorName, time, isReserved, cost);
     }
 }

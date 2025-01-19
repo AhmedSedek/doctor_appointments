@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import main.java.com.doctor_appointments.availability.shared.ISlotRepo;
 
 public class SlotRepo implements ISlotRepo {
     private final Map<UUID, SlotEntity> slots;
@@ -23,5 +24,17 @@ public class SlotRepo implements ISlotRepo {
     @Override
     public List<SlotEntity> listSlots() {
         return slots.values().stream().toList();
+    }
+
+    @Override
+    public synchronized void reserveSlot(UUID slotId) {
+        SlotEntity slot = slots.get(slotId);
+        if (slot == null) {
+            throw new RuntimeException("No slot found with ID: " + slotId);
+        }
+        if (slot.isReserved()) {
+            throw new IllegalStateException("Slot already reserved: " + slotId);
+        }
+        slots.put(slotId, SlotEntity.withReserved(slot));
     }
 }
