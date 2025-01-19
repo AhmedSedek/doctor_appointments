@@ -15,10 +15,25 @@ public class AppointmentRepo implements IAppointmentRepo {
     private final INotificationService notificationService;
 
     private final Map<UUID, AppointmentEntity> appointments;
+    private final Map<UUID, AppointmentEntity> completedAppointments;
 
     AppointmentRepo(INotificationService notificationService){
         this.appointments = new HashMap<>();
+        this.completedAppointments = new HashMap<>();
         this.notificationService = notificationService;
+    }
+
+    @Override
+    public synchronized void complete(UUID appointmentId) {
+        if (completedAppointments.containsKey(completedAppointments)) {
+            throw new IllegalArgumentException(String.format("Appointment %s already completed", appointmentId));
+        }
+        var appointment = appointments.remove(appointmentId);
+        if (appointment == null) {
+            throw new IllegalArgumentException(String.format("Appointment %s does not exist", appointmentId));
+        }
+        completedAppointments.put(appointmentId, appointment);
+        System.out.println(String.format("Appointment %d completed", appointmentId));
     }
 
     @Override

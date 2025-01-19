@@ -4,4 +4,6 @@ import java.util.UUID;
 
 public interface IManagementService {
     void cancelAppointment(UUID appointmentId);
+
+    void completeAppointment(UUID appointmentId);
 }

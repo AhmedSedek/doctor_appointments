@@ -33,4 +33,8 @@ public class AppointmentService implements IAppointmentService {
     slotRepo.releaseSlot(deletedAppointment.slotId());
   }
 
+  @Override
+  public void completeAppointment(UUID appointmentId) {
+  }
+
 }
