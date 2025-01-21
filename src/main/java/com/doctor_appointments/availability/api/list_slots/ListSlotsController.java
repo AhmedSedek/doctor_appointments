@@ -10,7 +10,7 @@ public class ListSlotsController {
         this.listSlotsHandler = listSlotsHandler;
     }
     public ListSlotsResponse handle(ListSlotsRequest request) {
-        var slots = this.listSlotsHandler.handle();
+        var slots = this.listSlotsHandler.handle(request.availableOnly());
         return new ListSlotsResponse(slots);
     }
 }

@@ -11,16 +11,11 @@ public class ListSlotsHandler {
     ListSlotsHandler(ISlotRepo slotRepo) {
         this.slotRepo = slotRepo;
     }
-    public List<SlotDto> handle() {
-        return slotRepo.listSlots().stream().map(slotEntity -> SlotDto.fromRepo(slotEntity)).toList();
-    }
-
-    public List<SlotDto> handleAvailableOnly() {
-        return slotRepo
-                .listSlots()
-                .stream()
-                .filter(slotEntity -> !slotEntity.isReserved())
-                .map(slotEntity -> SlotDto.fromRepo(slotEntity))
-                .toList();
+    public List<SlotDto> handle(boolean availableOnly) {
+        var slotsStream = slotRepo.listSlots().stream();
+        if (availableOnly) {
+            slotsStream = slotsStream.filter(slotEntity -> !slotEntity.isReserved());
+        }
+        return slotsStream.map(slotEntity -> SlotDto.fromRepo(slotEntity)).toList();
     }
 }
