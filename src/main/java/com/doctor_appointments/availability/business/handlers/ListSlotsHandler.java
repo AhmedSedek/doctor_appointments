@@ -1,5 +1,6 @@
-package main.java.com.doctor_appointments.availability.business;
+package main.java.com.doctor_appointments.availability.business.handlers;
 
+import main.java.com.doctor_appointments.availability.business.SlotDto;
 import main.java.com.doctor_appointments.availability.shared.ISlotRepo;
 
 import java.util.List;

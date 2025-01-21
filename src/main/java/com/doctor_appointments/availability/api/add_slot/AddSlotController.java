@@ -1,6 +1,6 @@
 package main.java.com.doctor_appointments.availability.api.add_slot;
 
-import main.java.com.doctor_appointments.availability.business.AddSlotHandler;
+import main.java.com.doctor_appointments.availability.business.handlers.AddSlotHandler;
 import main.java.com.doctor_appointments.availability.business.SlotDto;
 
 public class AddSlotController {

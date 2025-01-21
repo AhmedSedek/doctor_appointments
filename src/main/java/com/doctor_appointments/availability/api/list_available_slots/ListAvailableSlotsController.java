@@ -2,7 +2,7 @@ package main.java.com.doctor_appointments.availability.api.list_available_slots;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import main.java.com.doctor_appointments.availability.business.ListSlotsHandler;
+import main.java.com.doctor_appointments.availability.business.handlers.ListSlotsHandler;
 import main.java.com.doctor_appointments.availability.business.SlotDto;
 import main.java.com.doctor_appointments.availability.shared.Slot;
 
