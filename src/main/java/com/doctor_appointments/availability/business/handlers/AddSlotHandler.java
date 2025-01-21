@@ -1,7 +1,7 @@
 package main.java.com.doctor_appointments.availability.business.handlers;
 
 import main.java.com.doctor_appointments.availability.business.SlotDto;
-import main.java.com.doctor_appointments.availability.shared.ISlotRepo;
+import main.java.com.doctor_appointments.availability.data.ISlotRepo;
 import main.java.com.doctor_appointments.availability.data.SlotEntity;
 
 import java.time.LocalDateTime;

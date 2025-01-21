@@ -1,4 +1,4 @@
-package main.java.com.doctor_appointments.availability.shared;
+package main.java.com.doctor_appointments.availability.data;
 
 import java.util.List;
 import java.util.UUID;

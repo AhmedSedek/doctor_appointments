@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import main.java.com.doctor_appointments.availability.shared.ISlotRepo;
 
 public class SlotRepo implements ISlotRepo {
     private final Map<UUID, SlotEntity> slots;
