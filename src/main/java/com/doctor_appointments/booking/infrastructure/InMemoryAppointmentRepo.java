@@ -8,7 +8,7 @@ import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
 import main.java.com.doctor_appointments.confirmation.INotificationService;
 
-public class AppointmentRepo implements IAppointmentRepo {
+public class InMemoryAppointmentRepo implements IAppointmentRepo {
     // This is hardcoded as it only works for simplicity. Ideally it should be a config somewhere
     // (even if it's for one doctor) or generally fetched from some Doctor repo using doctor ID.
     private static final String DOCTOR_EMAIL = "doctor@email.com";
@@ -18,7 +18,7 @@ public class AppointmentRepo implements IAppointmentRepo {
     private final Map<UUID, AppointmentEntity> appointments;
     private final Map<UUID, AppointmentEntity> completedAppointments;
 
-    AppointmentRepo(INotificationService notificationService){
+    InMemoryAppointmentRepo(INotificationService notificationService){
         this.appointments = new HashMap<>();
         this.completedAppointments = new HashMap<>();
         this.notificationService = notificationService;
