@@ -1,8 +1,8 @@
-package main.java.com.doctor_appointments.availability.data;
+package main.java.com.doctor_appointments.availability.repository;
 
 import java.util.List;
 import java.util.UUID;
-import main.java.com.doctor_appointments.availability.data.SlotEntity;
+import main.java.com.doctor_appointments.availability.model.SlotEntity;
 
 public interface ISlotRepo {
     void addSlot(SlotEntity slot);

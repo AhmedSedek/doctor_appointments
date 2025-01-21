@@ -1,17 +1,17 @@
 package main.java.com.doctor_appointments.availability.api.add_slot;
 
-import main.java.com.doctor_appointments.availability.business.handlers.AddSlotHandler;
-import main.java.com.doctor_appointments.availability.business.SlotDto;
+import main.java.com.doctor_appointments.availability.service.IDoctorAvailabilityService;
+import main.java.com.doctor_appointments.availability.service.SlotDto;
 
 public class AddSlotController {
 
-    private final AddSlotHandler addSlotHandler;
+    private final IDoctorAvailabilityService doctorAvailabilityService;
 
-    AddSlotController(AddSlotHandler addSlotHandler) {
-        this.addSlotHandler = addSlotHandler;
+    AddSlotController(IDoctorAvailabilityService doctorAvailabilityService) {
+        this.doctorAvailabilityService = doctorAvailabilityService;
     }
     public AddSlotResponse handle(AddSlotRequest request) {
-        SlotDto storedSlot = addSlotHandler.handle(request.doctorId(), request.doctorName(), request.time(), request.isReserved(), request.cost());
+        SlotDto storedSlot = doctorAvailabilityService.addSlot(request.doctorId(), request.doctorName(), request.time(), request.isReserved(), request.cost());
         return new AddSlotResponse(storedSlot.slotId());
     }
 }

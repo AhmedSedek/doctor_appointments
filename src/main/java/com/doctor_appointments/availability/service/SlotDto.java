@@ -1,6 +1,6 @@
-package main.java.com.doctor_appointments.availability.business;
+package main.java.com.doctor_appointments.availability.service;
 
-import main.java.com.doctor_appointments.availability.data.SlotEntity;
+import main.java.com.doctor_appointments.availability.model.SlotEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

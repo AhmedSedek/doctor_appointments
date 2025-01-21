@@ -1,16 +1,18 @@
 package main.java.com.doctor_appointments.availability.api.list_slots;
 
-import main.java.com.doctor_appointments.availability.business.handlers.ListSlotsHandler;
+import java.util.List;
+import main.java.com.doctor_appointments.availability.service.IDoctorAvailabilityService;
+import main.java.com.doctor_appointments.availability.service.SlotDto;
 
 public class ListSlotsController {
 
-    private final ListSlotsHandler listSlotsHandler;
+    private final IDoctorAvailabilityService doctorAvailabilityService;
 
-    ListSlotsController(ListSlotsHandler listSlotsHandler) {
-        this.listSlotsHandler = listSlotsHandler;
+    ListSlotsController(IDoctorAvailabilityService doctorAvailabilityService) {
+        this.doctorAvailabilityService = doctorAvailabilityService;
     }
     public ListSlotsResponse handle(ListSlotsRequest request) {
-        var slots = this.listSlotsHandler.handle(request.availableOnly());
+        List<SlotDto> slots = this.doctorAvailabilityService.listSlots(request.availableOnly());
         return new ListSlotsResponse(slots);
     }
 }

@@ -1,4 +1,4 @@
-package main.java.com.doctor_appointments.availability.data;
+package main.java.com.doctor_appointments.availability.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

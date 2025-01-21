@@ -1,17 +1,17 @@
 package main.java.com.doctor_appointments.availability.api.release_slot;
 
-import main.java.com.doctor_appointments.availability.business.handlers.ReleaseSlotHandler;
+import main.java.com.doctor_appointments.availability.service.IDoctorAvailabilityService;
 
 public class ReleaseSlotController {
 
-  private final ReleaseSlotHandler releaseSlotHandler;
+  private final IDoctorAvailabilityService doctorAvailabilityService;
 
-  ReleaseSlotController(ReleaseSlotHandler releaseSlotHandler) {
-    this.releaseSlotHandler = releaseSlotHandler;
+  ReleaseSlotController(IDoctorAvailabilityService doctorAvailabilityService) {
+    this.doctorAvailabilityService = doctorAvailabilityService;
   }
 
   public ReleaseSlotResponse handle(ReleaseSlotRequest request) {
-    releaseSlotHandler.handle(request.slotId());
+    doctorAvailabilityService.releaseSlot(request.slotId());
     return new ReleaseSlotResponse();
   }
 }

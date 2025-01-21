@@ -1,11 +1,10 @@
-package main.java.com.doctor_appointments.availability.infrastructure;
+package main.java.com.doctor_appointments.availability.repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import main.java.com.doctor_appointments.availability.data.ISlotRepo;
-import main.java.com.doctor_appointments.availability.data.SlotEntity;
+import main.java.com.doctor_appointments.availability.model.SlotEntity;
 
 public class InMemorySlotRepo implements ISlotRepo {
     private final Map<UUID, SlotEntity> slots;
