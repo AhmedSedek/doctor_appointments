@@ -1,5 +1,6 @@
 package main.java.com.doctor_appointments.booking.application;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface IAppointmentService {
@@ -8,4 +9,6 @@ public interface IAppointmentService {
   void cancelAppointment(UUID appointmentId);
 
   void completeAppointment(UUID appointmentId);
+
+  List<AppointmentDto> listAppointments();
 }

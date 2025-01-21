@@ -1,6 +1,7 @@
 package main.java.com.doctor_appointments.booking.infrastructure;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
@@ -43,6 +44,11 @@ public class AppointmentRepo implements IAppointmentRepo {
             throw new IllegalArgumentException(String.format("Appointment %s does not exist", appointmentId));
         }
         return removedAppointment;
+    }
+
+    @Override
+    public List<AppointmentEntity> listAppointments() {
+        return appointments.values().stream().toList();
     }
 
     @Override

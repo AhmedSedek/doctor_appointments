@@ -1,6 +1,7 @@
 package main.java.com.doctor_appointments.booking.application;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.shared.ISlotRepo;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
@@ -35,6 +36,15 @@ public class AppointmentService implements IAppointmentService {
 
   @Override
   public void completeAppointment(UUID appointmentId) {
+  }
+
+  @Override
+  public List<AppointmentDto> listAppointments() {
+    return appointmentRepo
+        .listAppointments()
+        .stream()
+        .map(appointmentEntity -> AppointmentDto.fromRepo(appointmentEntity))
+        .toList();
   }
 
 }
