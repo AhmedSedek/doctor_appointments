@@ -8,7 +8,7 @@ import main.java.com.doctor_appointments.booking.api.complete_appointment.Comple
 import main.java.com.doctor_appointments.booking.api.complete_appointment.CompleteAppointmentRequest;
 import main.java.com.doctor_appointments.booking.api.list_appointments.ListAppointmentsController;
 import main.java.com.doctor_appointments.booking.api.list_appointments.ListAppointmentsRequest;
-import main.java.com.doctor_appointments.booking.application.AppointmentDto;
+import main.java.com.doctor_appointments.booking.shared.Appointment;
 
 public class ManagementService implements IManagementService {
 
@@ -37,7 +37,7 @@ public class ManagementService implements IManagementService {
   }
 
   @Override
-  public List<AppointmentDto> listAppointments() {
+  public List<Appointment> listAppointments() {
     var request = new ListAppointmentsRequest();
     return listAppointmentsController.handle(request).appointments();
   }
