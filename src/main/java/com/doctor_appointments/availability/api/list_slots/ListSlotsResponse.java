@@ -1,8 +1,7 @@
 package main.java.com.doctor_appointments.availability.api.list_slots;
 
-import main.java.com.doctor_appointments.availability.service.SlotDto;
-
 import java.util.List;
+import main.java.com.doctor_appointments.availability.shared.Slot;
 
-public record ListSlotsResponse(List<SlotDto> slots) {
+public record ListSlotsResponse(List<Slot> slots) {
 }
