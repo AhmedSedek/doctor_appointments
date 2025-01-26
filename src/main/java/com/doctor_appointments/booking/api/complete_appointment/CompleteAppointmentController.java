@@ -1,8 +1,8 @@
 package main.java.com.doctor_appointments.booking.api.complete_appointment;
 
-import main.java.com.doctor_appointments.booking.api.cancel_appointment.CancelAppointmentRequest;
-import main.java.com.doctor_appointments.booking.api.cancel_appointment.CancelAppointmentResponse;
 import main.java.com.doctor_appointments.booking.application.IAppointmentService;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 
 public class CompleteAppointmentController {
   private final IAppointmentService appointmentService;
@@ -10,7 +10,7 @@ public class CompleteAppointmentController {
   CompleteAppointmentController(IAppointmentService appointmentService) {
     this.appointmentService = appointmentService;
   }
-  public CompleteAppointmentResponse handle(CompleteAppointmentRequest request) {
+  public CompleteAppointmentResponse handle(CompleteAppointmentRequest request) throws AppointmentAlreadyCompletedException, AppointmentNotFoundException {
     appointmentService.completeAppointment(request.appointmentId());
     return new CompleteAppointmentResponse();
   }

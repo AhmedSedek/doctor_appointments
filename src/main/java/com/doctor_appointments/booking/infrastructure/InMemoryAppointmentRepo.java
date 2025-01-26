@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.UUID;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyExistsException;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 import main.java.com.doctor_appointments.confirmation.INotificationService;
 
 public class InMemoryAppointmentRepo implements IAppointmentRepo {
@@ -25,23 +28,33 @@ public class InMemoryAppointmentRepo implements IAppointmentRepo {
     }
 
     @Override
-    public synchronized void complete(UUID appointmentId) {
-        if (completedAppointments.containsKey(completedAppointments)) {
-            throw new IllegalArgumentException(String.format("Appointment %s already completed", appointmentId));
+    public synchronized void add(AppointmentEntity appointment) throws AppointmentAlreadyExistsException {
+        UUID appointmentId = appointment.appointmentId();
+        if (appointments.containsKey(appointmentId)) {
+          throw new AppointmentAlreadyExistsException(appointmentId);
         }
-        var appointment = appointments.remove(appointmentId);
-        if (appointment == null) {
-            throw new IllegalArgumentException(String.format("Appointment %s does not exist", appointmentId));
-        }
-        completedAppointments.put(appointmentId, appointment);
-        System.out.println(String.format("Appointment %d completed", appointmentId));
+        appointments.put(appointment.appointmentId(), appointment);
+        sendNotifications(appointment);
     }
 
     @Override
-    public synchronized AppointmentEntity delete(UUID appointmentId) {
+    public synchronized void complete(UUID appointmentId) throws AppointmentAlreadyCompletedException, AppointmentNotFoundException {
+        if (completedAppointments.containsKey(appointmentId)) {
+            throw new AppointmentAlreadyCompletedException(appointmentId);
+        }
+        var appointment = appointments.remove(appointmentId);
+        if (appointment == null) {
+            throw new AppointmentNotFoundException(appointmentId);
+        }
+        completedAppointments.put(appointmentId, appointment);
+        System.out.println(String.format("Appointment %s completed", appointmentId));
+    }
+
+    @Override
+    public synchronized AppointmentEntity delete(UUID appointmentId)  throws AppointmentNotFoundException {
         var removedAppointment = appointments.remove(appointmentId);
         if (removedAppointment == null) {
-            throw new IllegalArgumentException(String.format("Appointment %s does not exist", appointmentId));
+            throw new AppointmentNotFoundException(appointmentId);
         }
         return removedAppointment;
     }
@@ -49,15 +62,6 @@ public class InMemoryAppointmentRepo implements IAppointmentRepo {
     @Override
     public List<AppointmentEntity> listAppointments() {
         return appointments.values().stream().toList();
-    }
-
-    @Override
-    public synchronized void save(AppointmentEntity appointment) {
-        if (appointments.containsKey(appointment.appointmentId())) {
-            throw new IllegalArgumentException("Conflict appointment ID: " + appointment.appointmentId());
-        }
-        appointments.put(appointment.appointmentId(), appointment);
-        sendNotifications(appointment);
     }
 
     private void sendNotifications(AppointmentEntity appointment) {

@@ -13,6 +13,8 @@ import main.java.com.doctor_appointments.availability.shared.Slot;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyExistsException;
+import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.SlotAlreadyBookedException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.SlotNotFoundException;
 
@@ -35,18 +37,18 @@ public class AppointmentService implements IAppointmentService {
   }
 
   @Override
-  public AppointmentDto bookAppointment(UUID slotId, UUID patientId, String patientName) throws SlotAlreadyBookedException, SlotNotFoundException {
+  public AppointmentDto bookAppointment(UUID slotId, UUID patientId, String patientName) throws AppointmentAlreadyExistsException, SlotAlreadyBookedException, SlotNotFoundException {
     reserveSlot(slotId);
     UUID appointmentId = UUID.randomUUID();
     AppointmentEntity appointment = new AppointmentEntity(appointmentId, slotId, patientId, patientName,
         LocalDateTime.now());
     // TODO - Handle conflicting appointmentIds in the database.
-    appointmentRepo.save(appointment);
+    appointmentRepo.add(appointment);
     return AppointmentDto.fromRepo(appointment);
   }
 
   @Override
-  public void cancelAppointment(UUID appointmentId) {
+  public void cancelAppointment(UUID appointmentId) throws AppointmentNotFoundException {
     AppointmentEntity deletedAppointment = appointmentRepo.delete(appointmentId);
     releaseSlot(deletedAppointment.slotId());
   }
