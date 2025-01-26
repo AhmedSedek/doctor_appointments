@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.model.SlotEntity;
+import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyExistsException;
+import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
+import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
+import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 
 public class InMemorySlotRepo implements ISlotRepo {
     private final Map<UUID, SlotEntity> slots;
@@ -14,9 +18,9 @@ public class InMemorySlotRepo implements ISlotRepo {
     }
 
     @Override
-    public synchronized void addSlot(SlotEntity slot) {
+    public synchronized void addSlot(SlotEntity slot) throws SlotAlreadyExistsException {
         if (slots.containsKey(slot.slotId())) {
-            throw new IllegalArgumentException("Conflict UUID: " + slot.slotId());
+            throw new SlotAlreadyExistsException(String.format("Slot %s already exists", slot.slotId()));
         }
         slots.put(slot.slotId(), slot);
     }
@@ -27,26 +31,26 @@ public class InMemorySlotRepo implements ISlotRepo {
     }
 
     @Override
-    public synchronized void releaseSlot(UUID slotId) {
+    public synchronized void releaseSlot(UUID slotId) throws SlotAlreadyReleasedException, SlotNotFoundException {
         SlotEntity slot = slots.get(slotId);
         if (slot == null) {
-            throw new RuntimeException("No slot found with ID: " + slotId);
+            throw new SlotNotFoundException(String.format("Slot %s is not found", slotId));
         }
         if (!slot.isReserved()) {
-            System.out.println(String.format("Slot %s is already released", slotId));
+            throw new SlotAlreadyReleasedException(String.format("Slot %s is already released", slotId));
         } else {
             slots.put(slotId, SlotEntity.withReserved(slot, /*isReserved=*/ false));
         }
     }
 
     @Override
-    public synchronized void reserveSlot(UUID slotId) {
+    public synchronized void reserveSlot(UUID slotId) throws SlotAlreadyReservedException, SlotNotFoundException {
         SlotEntity slot = slots.get(slotId);
         if (slot == null) {
-            throw new RuntimeException("No slot found with ID: " + slotId);
+            throw new SlotNotFoundException(String.format("Slot %s is not found",  slotId));
         }
         if (slot.isReserved()) {
-            throw new IllegalStateException("Slot already reserved: " + slotId);
+            throw new SlotAlreadyReservedException(String.format("Slot %s is already reserved", slotId));
         }
         slots.put(slotId, SlotEntity.withReserved(slot, /*isReserved=*/ true));
     }

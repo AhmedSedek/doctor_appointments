@@ -10,9 +10,11 @@ import main.java.com.doctor_appointments.availability.api.release_slot.ReleaseSl
 import main.java.com.doctor_appointments.availability.api.reserve_slot.ReserveSlotController;
 import main.java.com.doctor_appointments.availability.api.reserve_slot.ReserveSlotRequest;
 import main.java.com.doctor_appointments.availability.shared.Slot;
-import main.java.com.doctor_appointments.booking.api.list_available_slots.ListAvailableSlotsController;
+import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
+import main.java.com.doctor_appointments.booking.shared.exceptions.SlotAlreadyBookedException;
+import main.java.com.doctor_appointments.booking.shared.exceptions.SlotNotFoundException;
 
 public class AppointmentService implements IAppointmentService {
 
@@ -33,8 +35,8 @@ public class AppointmentService implements IAppointmentService {
   }
 
   @Override
-  public AppointmentDto bookAppointment(UUID slotId, UUID patientId, String patientName) {
-    reserveSlotController.handle(new ReserveSlotRequest(slotId));
+  public AppointmentDto bookAppointment(UUID slotId, UUID patientId, String patientName) throws SlotAlreadyBookedException, SlotNotFoundException {
+    reserveSlot(slotId);
     UUID appointmentId = UUID.randomUUID();
     AppointmentEntity appointment = new AppointmentEntity(appointmentId, slotId, patientId, patientName,
         LocalDateTime.now());
@@ -46,7 +48,7 @@ public class AppointmentService implements IAppointmentService {
   @Override
   public void cancelAppointment(UUID appointmentId) {
     AppointmentEntity deletedAppointment = appointmentRepo.delete(appointmentId);
-    releaseSlotController.handle(new ReleaseSlotRequest(deletedAppointment.slotId()));
+    releaseSlot(deletedAppointment.slotId());
   }
 
   @Override
@@ -65,5 +67,23 @@ public class AppointmentService implements IAppointmentService {
   @Override
   public List<Slot> listAvailableSlots() {
     return listSlotsController.handle(new ListSlotsRequest(/*availableOnly=*/true)).slots();
+  }
+
+  private void releaseSlot(UUID slotId) {
+    try {
+      releaseSlotController.handle(new ReleaseSlotRequest(slotId));
+    } catch (Exception e) {
+      // Ignore errors
+    }
+  }
+
+  private void reserveSlot(UUID slotId) throws SlotAlreadyBookedException, SlotNotFoundException {
+    try {
+      reserveSlotController.handle(new ReserveSlotRequest(slotId));
+    } catch (SlotAlreadyReservedException e) {
+      throw new SlotAlreadyBookedException(e.getMessage());
+    } catch (main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException e) {
+      throw new SlotNotFoundException(e.getMessage());
+    }
   }
 }
