@@ -13,7 +13,6 @@ import main.java.com.doctor_appointments.availability.shared.Slot;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
-import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyExistsException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.SlotAlreadyBookedException;
@@ -55,7 +54,7 @@ public class AppointmentService implements IAppointmentService {
   }
 
   @Override
-  public void completeAppointment(UUID appointmentId) throws AppointmentAlreadyCompletedException, AppointmentNotFoundException {
+  public void completeAppointment(UUID appointmentId) throws AppointmentNotFoundException {
     appointmentRepo.complete(appointmentId);
   }
 

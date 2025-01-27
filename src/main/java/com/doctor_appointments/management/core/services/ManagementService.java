@@ -9,7 +9,6 @@ import main.java.com.doctor_appointments.booking.api.complete_appointment.Comple
 import main.java.com.doctor_appointments.booking.api.list_appointments.ListAppointmentsController;
 import main.java.com.doctor_appointments.booking.api.list_appointments.ListAppointmentsRequest;
 import main.java.com.doctor_appointments.booking.shared.Appointment;
-import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
 import main.java.com.doctor_appointments.management.core.exceptions.AppointmentNotFoundException;
 
 public class ManagementService implements IManagementService {
@@ -43,8 +42,6 @@ public class ManagementService implements IManagementService {
       completeAppointmentController.handle(request);
     } catch (main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException e) {
       throw new AppointmentNotFoundException(e.getMessage());
-    } catch (AppointmentAlreadyCompletedException e) {
-      // Ignore error
     }
   }
 

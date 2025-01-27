@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.UUID;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyExistsException;
-import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 import main.java.com.doctor_appointments.confirmation.INotificationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,17 +96,17 @@ public class InMemoryAppointmentRepoTest {
   }
 
   @Test
-  void testComplete_alreadyCompleted_throws() throws Exception {
+  void testComplete_alreadyCompleted() throws Exception {
     AppointmentEntity appointment = ARBITRARY_APPOINTMENT;
     UUID appointmentId = ARBITRARY_APPOINTMENT.appointmentId();
     repo.add(appointment);
     repo.complete(appointmentId);
 
-    assertThrows(AppointmentAlreadyCompletedException.class, () -> repo.complete(appointmentId));
+    assertDoesNotThrow(() -> repo.complete(appointmentId));
   }
 
   @Test
-  void testComplete_appointmentNotFound_throws() throws Exception {
+  void testComplete_appointmentNotFound_throws() {
     // Do not insert appointment
     assertThrows(AppointmentNotFoundException.class, () -> repo.complete(UUID.randomUUID()));
   }

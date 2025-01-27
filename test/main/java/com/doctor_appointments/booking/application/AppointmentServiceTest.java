@@ -20,7 +20,6 @@ import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlre
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
 import main.java.com.doctor_appointments.booking.infrastructure.InMemoryAppointmentRepo;
-import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.SlotAlreadyBookedException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.SlotNotFoundException;
@@ -106,6 +105,12 @@ public class AppointmentServiceTest {
   }
 
   @Test
+  void testCancelAppointment_appointmentNotFound_throws() throws Exception {
+    // Do not add appointment to the repo.
+    assertThrows(AppointmentNotFoundException.class, () -> appointmentService.cancelAppointment(UUID.randomUUID()));
+  }
+
+  @Test
   void testCompleteAppointment() throws Exception {
     appointmentRepo.add(APPOINTMENT);
 
@@ -115,22 +120,16 @@ public class AppointmentServiceTest {
   }
 
   @Test
-  void testCompleteAppointment_appointmentNotFound_throws() throws Exception {
-    assertThrows(AppointmentNotFoundException.class, () -> appointmentService.completeAppointment(UUID.randomUUID()));
-  }
-
-  @Test
-  void testCompleteAppointment_appointmentAlreadyCompleted_throws() throws Exception {
+  void testCompleteAppointment_appointmentAlreadyCompleted() throws Exception {
     appointmentRepo.add(APPOINTMENT);
     appointmentService.completeAppointment(APPOINTMENT.appointmentId());
 
-    assertThrows(AppointmentAlreadyCompletedException.class, () -> appointmentService.completeAppointment(APPOINTMENT.appointmentId()));
+    assertDoesNotThrow(() -> appointmentService.completeAppointment(APPOINTMENT.appointmentId()));
   }
 
   @Test
-  void testCancelAppointment_appointmentNotFound_throws() throws Exception {
-    // Do not add appointment to the repo.
-    assertThrows(AppointmentNotFoundException.class, () -> appointmentService.cancelAppointment(UUID.randomUUID()));
+  void testCompleteAppointment_appointmentNotFound_throws() throws Exception {
+    assertThrows(AppointmentNotFoundException.class, () -> appointmentService.completeAppointment(UUID.randomUUID()));
   }
 
   @Test

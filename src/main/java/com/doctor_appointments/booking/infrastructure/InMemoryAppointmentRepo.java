@@ -7,7 +7,6 @@ import java.util.UUID;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyExistsException;
-import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentAlreadyCompletedException;
 import main.java.com.doctor_appointments.booking.shared.exceptions.AppointmentNotFoundException;
 import main.java.com.doctor_appointments.confirmation.INotificationService;
 
@@ -38,9 +37,9 @@ public class InMemoryAppointmentRepo implements IAppointmentRepo {
     }
 
     @Override
-    public synchronized void complete(UUID appointmentId) throws AppointmentAlreadyCompletedException, AppointmentNotFoundException {
+    public synchronized void complete(UUID appointmentId) throws AppointmentNotFoundException {
         if (completedAppointments.containsKey(appointmentId)) {
-            throw new AppointmentAlreadyCompletedException(appointmentId);
+            return;
         }
         var appointment = appointments.remove(appointmentId);
         if (appointment == null) {
