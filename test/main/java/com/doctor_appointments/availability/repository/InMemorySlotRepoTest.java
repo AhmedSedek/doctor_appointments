@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.model.SlotEntity;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyExistsException;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,17 +82,17 @@ public class InMemorySlotRepoTest {
   }
 
   @Test
-  void testReleaseSlot_releasedSlot_throws() throws Exception {
+  void testReleaseSlot_releasedSlot() throws Exception {
     SlotEntity releasedSlot = ARBITRARY_UNRESERVED_SLOT;
     repo.addSlot(releasedSlot);
 
-    assertThrows(SlotAlreadyReleasedException.class, () ->repo.releaseSlot(releasedSlot.slotId()));
+    assertDoesNotThrow(() -> repo.releaseSlot(releasedSlot.slotId()));
   }
 
   @Test
-  void testReleaseSlot_slotNotFound_throws() throws Exception {
+  void testReleaseSlot_slotNotFound() throws Exception {
     // Do not insert slot.
-    assertThrows(SlotNotFoundException.class, () -> repo.releaseSlot(UUID.randomUUID()));
+    assertDoesNotThrow(() -> repo.releaseSlot(UUID.randomUUID()));
   }
 
   @Test

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.model.SlotEntity;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyExistsException;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 
@@ -13,7 +12,7 @@ public interface ISlotRepo {
 
     List<SlotEntity> listSlots();
 
-    void releaseSlot(UUID slotId) throws SlotAlreadyReleasedException, SlotNotFoundException;
+    void releaseSlot(UUID slotId);
 
     void reserveSlot(UUID slotId) throws SlotAlreadyReservedException, SlotNotFoundException;
 }

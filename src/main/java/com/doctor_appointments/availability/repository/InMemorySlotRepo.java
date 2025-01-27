@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.model.SlotEntity;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyExistsException;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 
@@ -31,14 +30,9 @@ public class InMemorySlotRepo implements ISlotRepo {
     }
 
     @Override
-    public synchronized void releaseSlot(UUID slotId) throws SlotAlreadyReleasedException, SlotNotFoundException {
+    public synchronized void releaseSlot(UUID slotId) {
         SlotEntity slot = slots.get(slotId);
-        if (slot == null) {
-            throw new SlotNotFoundException(String.format("Slot %s is not found", slotId));
-        }
-        if (!slot.isReserved()) {
-            throw new SlotAlreadyReleasedException(String.format("Slot %s is already released", slotId));
-        } else {
+        if (slot != null && slot.isReserved()) {
             slots.put(slotId, SlotEntity.withReserved(slot, /*isReserved=*/ false));
         }
     }

@@ -6,7 +6,6 @@ import java.util.UUID;
 import main.java.com.doctor_appointments.availability.repository.ISlotRepo;
 import main.java.com.doctor_appointments.availability.model.SlotEntity;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyExistsException;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 
@@ -37,7 +36,7 @@ public class DoctorAvailabilityService implements IDoctorAvailabilityService {
   }
 
   @Override
-  public void releaseSlot(UUID slotId) throws SlotAlreadyReleasedException, SlotNotFoundException {
+  public void releaseSlot(UUID slotId) {
     slotRepo.releaseSlot(slotId);
   }
 

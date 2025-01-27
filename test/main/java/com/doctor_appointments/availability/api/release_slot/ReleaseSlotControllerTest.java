@@ -1,7 +1,7 @@
 package main.java.com.doctor_appointments.availability.api.release_slot;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,8 +9,6 @@ import main.java.com.doctor_appointments.availability.model.SlotEntity;
 import main.java.com.doctor_appointments.availability.repository.ISlotRepo;
 import main.java.com.doctor_appointments.availability.repository.InMemorySlotRepo;
 import main.java.com.doctor_appointments.availability.service.DoctorAvailabilityService;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,18 +58,18 @@ public class ReleaseSlotControllerTest {
   }
 
   @Test
-  void testReleaseSlot_notFoundSlot_throws() throws Exception {
+  void testReleaseSlot_notFoundSlot() {
     ReleaseSlotRequest request = new ReleaseSlotRequest(UUID.randomUUID());
 
-    assertThrows(SlotNotFoundException.class, () -> controller.handle(request));
+    assertDoesNotThrow(() -> controller.handle(request));
   }
 
   @Test
-  void testReleaseSlot_slotAlreadyReleased_throws() throws Exception {
+  void testReleaseSlot_slotAlreadyReleased() throws Exception {
     UUID slotId = ARBITRARY_UNRESERVED_SLOT.slotId();
     slotRepo.addSlot(ARBITRARY_UNRESERVED_SLOT);
     ReleaseSlotRequest request = new ReleaseSlotRequest(slotId);
 
-    assertThrows(SlotAlreadyReleasedException.class, () -> controller.handle(request));
+    assertDoesNotThrow(() -> controller.handle(request));
   }
 }

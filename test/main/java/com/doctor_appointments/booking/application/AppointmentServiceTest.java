@@ -16,9 +16,7 @@ import main.java.com.doctor_appointments.availability.api.reserve_slot.ReserveSl
 import main.java.com.doctor_appointments.availability.api.reserve_slot.ReserveSlotRequest;
 import main.java.com.doctor_appointments.availability.api.reserve_slot.ReserveSlotResponse;
 import main.java.com.doctor_appointments.availability.shared.Slot;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReleasedException;
 import main.java.com.doctor_appointments.availability.shared.exceptions.SlotAlreadyReservedException;
-import main.java.com.doctor_appointments.booking.api.list_available_slots.ListAvailableSlotsRequest;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;
 import main.java.com.doctor_appointments.booking.domain.IAppointmentRepo;
 import main.java.com.doctor_appointments.booking.infrastructure.InMemoryAppointmentRepo;
@@ -101,28 +99,6 @@ public class AppointmentServiceTest {
   void testCancelAppointment() throws Exception {
     appointmentRepo.add(APPOINTMENT);
     mockSuccessfulReleaseSlot(APPOINTMENT.slotId());
-
-    appointmentService.cancelAppointment(APPOINTMENT.appointmentId());
-
-    assertEquals(0, appointmentRepo.listAppointments().size());
-  }
-
-
-  @Test
-  void testCancelAppointment_slotNotFound() throws Exception {
-    appointmentRepo.add(APPOINTMENT);
-    mockFailedReleaseSlot(APPOINTMENT.slotId(),
-        main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException.class);
-
-    appointmentService.cancelAppointment(APPOINTMENT.appointmentId());
-
-    assertEquals(0, appointmentRepo.listAppointments().size());
-  }
-
-  @Test
-  void testCancelAppointment_slotAlreadyReleased() throws Exception {
-    appointmentRepo.add(APPOINTMENT);
-    mockFailedReleaseSlot(APPOINTMENT.slotId(), SlotAlreadyReleasedException.class);
 
     appointmentService.cancelAppointment(APPOINTMENT.appointmentId());
 
