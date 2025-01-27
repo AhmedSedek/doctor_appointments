@@ -21,7 +21,7 @@ public class InMemoryAppointmentRepo implements IAppointmentRepo {
     private final Map<UUID, AppointmentEntity> appointments;
     private final Map<UUID, AppointmentEntity> completedAppointments;
 
-    InMemoryAppointmentRepo(INotificationService notificationService){
+    public InMemoryAppointmentRepo(INotificationService notificationService){
         this.appointments = new HashMap<>();
         this.completedAppointments = new HashMap<>();
         this.notificationService = notificationService;
