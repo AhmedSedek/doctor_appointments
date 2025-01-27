@@ -13,7 +13,7 @@ import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotF
 public class InMemorySlotRepo implements ISlotRepo {
     private final Map<UUID, SlotEntity> slots;
 
-    InMemorySlotRepo() {
+    public InMemorySlotRepo() {
         slots = new HashMap<>();
     }
 
