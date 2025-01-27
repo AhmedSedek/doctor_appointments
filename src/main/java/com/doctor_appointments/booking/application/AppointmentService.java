@@ -25,7 +25,7 @@ public class AppointmentService implements IAppointmentService {
   private final ReleaseSlotController releaseSlotController;
   private final ReserveSlotController reserveSlotController;
 
-  AppointmentService(
+  public AppointmentService(
       IAppointmentRepo appointmentRepo,
       ListSlotsController listSlotsController,
       ReleaseSlotController releaseSlotController,
