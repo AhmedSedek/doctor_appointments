@@ -1,7 +1,6 @@
 package main.java.com.doctor_appointments.availability.api.release_slot;
 
 import main.java.com.doctor_appointments.availability.service.IDoctorAvailabilityService;
-import main.java.com.doctor_appointments.availability.shared.exceptions.SlotNotFoundException;
 
 public class ReleaseSlotController {
 

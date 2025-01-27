@@ -1,7 +1,6 @@
 package main.java.com.doctor_appointments.management.shell.api.list_appointments;
 
 import java.util.List;
-import main.java.com.doctor_appointments.booking.application.AppointmentDto;
 import main.java.com.doctor_appointments.booking.shared.Appointment;
 import main.java.com.doctor_appointments.management.core.services.IManagementService;
 

@@ -1,20 +1,13 @@
 package main.java.com.doctor_appointments.booking.api.complete_appointment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.api.list_slots.ListSlotsController;
 import main.java.com.doctor_appointments.availability.api.release_slot.ReleaseSlotController;
-import main.java.com.doctor_appointments.availability.api.release_slot.ReleaseSlotRequest;
-import main.java.com.doctor_appointments.availability.api.release_slot.ReleaseSlotResponse;
 import main.java.com.doctor_appointments.availability.api.reserve_slot.ReserveSlotController;
-import main.java.com.doctor_appointments.booking.api.cancel_appointment.CancelAppointmentController;
-import main.java.com.doctor_appointments.booking.api.cancel_appointment.CancelAppointmentRequest;
 import main.java.com.doctor_appointments.booking.application.AppointmentService;
 import main.java.com.doctor_appointments.booking.application.IAppointmentService;
 import main.java.com.doctor_appointments.booking.domain.AppointmentEntity;

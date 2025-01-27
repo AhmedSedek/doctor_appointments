@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import main.java.com.doctor_appointments.availability.model.SlotEntity;
 import main.java.com.doctor_appointments.availability.shared.Slot;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

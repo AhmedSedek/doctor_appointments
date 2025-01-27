@@ -1,7 +1,5 @@
 package main.java.com.doctor_appointments.confirmation;
 
-import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NotificationService implements INotificationService {
