@@ -14,7 +14,7 @@ public class DoctorAvailabilityService implements IDoctorAvailabilityService {
 
   private final ISlotRepo slotRepo;
 
-  DoctorAvailabilityService(ISlotRepo slotRepo) {
+  public DoctorAvailabilityService(ISlotRepo slotRepo) {
     this.slotRepo = slotRepo;
   }
 
